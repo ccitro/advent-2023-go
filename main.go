@@ -1,6 +1,8 @@
 package main
 
 import (
+	"regexp"
+
 	"github.com/ccitro/advent-2023-go/internal/day01"
 	"github.com/ccitro/advent-2023-go/internal/day02"
 	"github.com/ccitro/advent-2023-go/internal/day03"
@@ -30,7 +32,20 @@ func main() {
 		return
 	}
 
-	day := os.Args[1]
+	// allowed formats: day01, 1, day1
+	dayArg := os.Args[1]
+
+	re := regexp.MustCompile(`\d+`)
+	day := re.FindString(dayArg)
+	if day == "" {
+		fmt.Printf("Unknown day: %s\n", dayArg)
+		return
+	}
+
+	if len(day) == 1 {
+		day = fmt.Sprintf("0%s", day)
+	}
+
 	if dayMethods[day].LoadPuzzle == nil {
 		fmt.Printf("Unknown day: %s\n", day)
 		return
