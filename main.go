@@ -1,14 +1,14 @@
 package main
 
 import (
+	"github.com/ccitro/advent-2023-go/internal/day01"
+	"github.com/ccitro/advent-2023-go/internal/day02"
+	"github.com/ccitro/advent-2023-go/internal/day03"
+
 	"bufio"
 	"fmt"
 	"os"
 	"strings"
-
-	"github.com/ccitro/advent-2023-go/internal/day01"
-	"github.com/ccitro/advent-2023-go/internal/day02"
-	"github.com/ccitro/advent-2023-go/internal/day03"
 )
 
 type Loader = func(scanner *bufio.Scanner)
@@ -19,9 +19,9 @@ type DayMethods struct {
 }
 
 var dayMethods = map[string]DayMethods{
-	"day01": {LoadPuzzle: day01.LoadPuzzle, Part1: day01.Part1, Part2: day01.Part2},
-	"day02": {LoadPuzzle: day02.LoadPuzzle, Part1: day02.Part1, Part2: day02.Part2},
 	"day03": {LoadPuzzle: day03.LoadPuzzle, Part1: day03.Part1, Part2: day03.Part2},
+	"day02": {LoadPuzzle: day02.LoadPuzzle, Part1: day02.Part1, Part2: day02.Part2},
+	"day01": {LoadPuzzle: day01.LoadPuzzle, Part1: day01.Part1, Part2: day01.Part2},
 }
 
 func main() {
