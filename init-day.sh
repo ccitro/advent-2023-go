@@ -14,7 +14,11 @@ TEMPLATE_DIR="internal/dayXX"
 cp -r $TEMPLATE_DIR $DAY_DIR
 
 # Rename the Go file in the new day directory
-mv $DAY_DIR/dayXX.go $DAY_DIR/day$DAY_NUM.go
+GO_FILE="$DAY_DIR/day$DAY_NUM.go"
+mv $DAY_DIR/dayXX.go $GO_FILE
+
+# Update package name in the Go file
+sed -i "s/package dayXX/package day$DAY_NUM/" $GO_FILE
 
 # Add import statement to main.go
 IMPORT_STATEMENT="\t\"github.com/ccitro/advent-2023-go/$DAY_DIR\""
