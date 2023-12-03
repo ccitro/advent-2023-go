@@ -1,18 +1,14 @@
-package main
+package day03
 
 import (
 	"bufio"
 	"fmt"
-	"os"
 	"strconv"
-	"strings"
 )
 
 var puzzle [][]rune
 
-func loadPuzzle(file *os.File) {
-	puzzle = make([][]rune, 0)
-	scanner := bufio.NewScanner(file)
+func LoadPuzzle(scanner *bufio.Scanner) {
 	for scanner.Scan() {
 		line := scanner.Text()
 		if line == "" {
@@ -64,13 +60,13 @@ func isSymbol(x, y int) bool {
 	return puzzle[y][x] != '.'
 }
 
-type Day03PartNumber struct {
+type PartNumber struct {
 	startX, startY int
 	endX, endY     int
 	n              int
 }
 
-func (n *Day03PartNumber) IsAdjacentToSymbol() bool {
+func (n *PartNumber) IsAdjacentToSymbol() bool {
 	tlx := n.startX - 1
 	tly := n.startY - 1
 	brx := n.endX + 1
@@ -87,12 +83,12 @@ func (n *Day03PartNumber) IsAdjacentToSymbol() bool {
 	return false
 }
 
-type Day03Point struct {
+type Point struct {
 	x, y int
 }
 
-func (n *Day03PartNumber) GetAdjacentGears() []Day03Point {
-	points := make([]Day03Point, 0)
+func (n *PartNumber) GetAdjacentGears() []Point {
+	points := make([]Point, 0)
 	tlx := n.startX - 1
 	tly := n.startY - 1
 	brx := n.endX + 1
@@ -101,7 +97,7 @@ func (n *Day03PartNumber) GetAdjacentGears() []Day03Point {
 	for i := tlx; i <= brx; i++ {
 		for j := tly; j <= bry; j++ {
 			if isGear(i, j) {
-				points = append(points, Day03Point{x: i, y: j})
+				points = append(points, Point{x: i, y: j})
 			}
 		}
 	}
@@ -109,7 +105,7 @@ func (n *Day03PartNumber) GetAdjacentGears() []Day03Point {
 	return points
 }
 
-func getPartNumber(x, y int) *Day03PartNumber {
+func getPartNumber(x, y int) *PartNumber {
 	digits := make([]rune, 0)
 	for {
 		if !isDigit(x, y) {
@@ -129,7 +125,7 @@ func getPartNumber(x, y int) *Day03PartNumber {
 		panic(err)
 	}
 
-	return &Day03PartNumber{
+	return &PartNumber{
 		startX: x - len(digits),
 		startY: y,
 		endX:   x - 1,
@@ -138,7 +134,7 @@ func getPartNumber(x, y int) *Day03PartNumber {
 	}
 }
 
-func part1() {
+func Part1() {
 	sum := 0
 	for y := 0; y < len(puzzle); y++ {
 		for x := 0; x < len(puzzle[y]); x++ {
@@ -159,8 +155,8 @@ func part1() {
 	println(sum)
 }
 
-func part2() {
-	gearPartNumbers := make(map[int][]Day03PartNumber)
+func Part2() {
+	gearPartNumbers := make(map[int][]PartNumber)
 	for y := 0; y < len(puzzle); y++ {
 		for x := 0; x < len(puzzle[y]); x++ {
 			n := getPartNumber(x, y)
@@ -175,7 +171,7 @@ func part2() {
 				for _, gear := range adjacentGears {
 					flatId := gear.y*len(puzzle[0]) + gear.x
 					if _, ok := gearPartNumbers[flatId]; !ok {
-						gearPartNumbers[flatId] = make([]Day03PartNumber, 0)
+						gearPartNumbers[flatId] = make([]PartNumber, 0)
 					}
 
 					gearPartNumbers[flatId] = append(gearPartNumbers[flatId], *n)
@@ -202,25 +198,4 @@ func part2() {
 	}
 
 	println(ratioSum)
-}
-
-func main() {
-	filename := "input.txt"
-	method := part1
-	for _, v := range os.Args {
-		if v == "part2" || v == "2" {
-			method = part2
-		}
-		if strings.HasSuffix(v, ".txt") {
-			filename = v
-		}
-	}
-
-	file, err := os.Open(filename)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	loadPuzzle(file)
-	method()
 }

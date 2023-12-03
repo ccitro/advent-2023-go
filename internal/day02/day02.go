@@ -1,22 +1,20 @@
-package main
+package day02
 
 import (
 	"bufio"
-	"os"
 	"strconv"
 	"strings"
 )
 
-type Day02Pull = map[string]int
-type Day02Game struct {
+type Pull = map[string]int
+type Game struct {
 	Game  int
-	Pulls []Day02Pull
+	Pulls []Pull
 }
 
-var puzzle []Day02Game
+var puzzle []Game
 
-func loadPuzzle(file *os.File) {
-	scanner := bufio.NewScanner(file)
+func LoadPuzzle(scanner *bufio.Scanner) {
 	for scanner.Scan() {
 		line := scanner.Text()
 		if line == "" {
@@ -31,9 +29,9 @@ func loadPuzzle(file *os.File) {
 		}
 
 		handfulls := strings.Split(parts[1], "; ")
-		pulls := make([]Day02Pull, len(handfulls))
+		pulls := make([]Pull, len(handfulls))
 		for i, v := range handfulls {
-			pulls[i] = make(Day02Pull)
+			pulls[i] = make(Pull)
 			clusters := strings.Split(v, ", ")
 			for _, cluster := range clusters {
 				parts := strings.Split(cluster, " ")
@@ -46,11 +44,11 @@ func loadPuzzle(file *os.File) {
 			}
 		}
 
-		puzzle = append(puzzle, Day02Game{Game: gameNum, Pulls: pulls})
+		puzzle = append(puzzle, Game{Game: gameNum, Pulls: pulls})
 	}
 }
 
-func part1() {
+func Part1() {
 	var maxPullsByLabel = make(map[string]int)
 	maxPullsByLabel["red"] = 12
 	maxPullsByLabel["green"] = 13
@@ -76,7 +74,7 @@ func part1() {
 	println(sumOfGoodGames)
 }
 
-func part2() {
+func Part2() {
 	powerSum := 0
 	for _, game := range puzzle {
 		var largestPullsByLabel = make(map[string]int)
@@ -95,25 +93,4 @@ func part2() {
 	}
 
 	println(powerSum)
-}
-
-func main() {
-	filename := "input.txt"
-	method := part1
-	for _, v := range os.Args {
-		if v == "part2" || v == "2" {
-			method = part2
-		}
-		if strings.HasSuffix(v, ".txt") {
-			filename = v
-		}
-	}
-
-	file, err := os.Open(filename)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	loadPuzzle(file)
-	method()
 }
