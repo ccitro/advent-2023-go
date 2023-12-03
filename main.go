@@ -1,8 +1,6 @@
 package main
 
 import (
-	"regexp"
-
 	"github.com/ccitro/advent-2023-go/internal/day01"
 	"github.com/ccitro/advent-2023-go/internal/day02"
 	"github.com/ccitro/advent-2023-go/internal/day03"
@@ -10,6 +8,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -45,6 +44,8 @@ func main() {
 	if len(day) == 1 {
 		day = fmt.Sprintf("0%s", day)
 	}
+
+	day = fmt.Sprintf("day%s", day)
 
 	if dayMethods[day].LoadPuzzle == nil {
 		fmt.Printf("Unknown day: %s\n", day)
