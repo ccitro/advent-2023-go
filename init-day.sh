@@ -29,3 +29,6 @@ $IMPORT_STATEMENT" main.go
 MAP_ENTRY="\t\"day$DAY_NUM\": {LoadPuzzle: day$DAY_NUM.LoadPuzzle, Part1: day$DAY_NUM.Part1, Part2: day$DAY_NUM.Part2},"
 sed -i "/var dayMethods = map\[string\]DayMethods{/a\\
 $MAP_ENTRY" main.go
+
+# Format main.go to order the imports
+go fmt main.go
