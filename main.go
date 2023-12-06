@@ -5,6 +5,7 @@ import (
 	"github.com/ccitro/advent-2023-go/internal/day02"
 	"github.com/ccitro/advent-2023-go/internal/day03"
 	"github.com/ccitro/advent-2023-go/internal/day04"
+	"github.com/ccitro/advent-2023-go/internal/day05"
 
 	"bufio"
 	"fmt"
@@ -21,6 +22,7 @@ type DayMethods struct {
 }
 
 var dayMethods = map[string]DayMethods{
+	"day05": {LoadPuzzle: day05.LoadPuzzle, Part1: day05.Part1, Part2: day05.Part2},
 	"day04": {LoadPuzzle: day04.LoadPuzzle, Part1: day04.Part1, Part2: day04.Part2},
 	"day03": {LoadPuzzle: day03.LoadPuzzle, Part1: day03.Part1, Part2: day03.Part2},
 	"day02": {LoadPuzzle: day02.LoadPuzzle, Part1: day02.Part1, Part2: day02.Part2},
